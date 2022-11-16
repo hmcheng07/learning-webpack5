@@ -15,6 +15,13 @@ module.exports = {
     module: {
         rules: [
             //loader的配置
+            {
+                test: /\.css$/, //只检测.css文件 $符号表示以什么什么结尾
+                use: [  //执行顺序，从右到左(从下到上)
+                    "style-loader", //将js中css通过创建style标签添加到html文件中生效
+                    "css-loader",   //将css资源编译成commonjs的模块到js中
+                ],
+            }
         ],
     },
     //插件
