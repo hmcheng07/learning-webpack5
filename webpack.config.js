@@ -29,6 +29,14 @@ module.exports = {
                     'css-loader',
                     'less-loader',  //将less编译成css文件
                 ],
+            },
+            {
+                test: /\.s[ac]ss$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',  //将sass编译成css文件
+                ],
             }
         ],
     },
