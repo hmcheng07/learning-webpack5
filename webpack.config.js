@@ -45,6 +45,18 @@ module.exports = {
                     'css-loader',
                     'stylus-loader',  //将stylus编译成css文件
                 ],
+            },
+            {
+                //图片资源处理，webpack5之后支持自动对图片进行处理，以下配置是为了优化图片处理而配置的
+                test: /\.(png|jpe?g|gif|webp|svg)$/,
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        //小于20kb的图片转base64 (具体大小根据实际情况配置，一般配置为小于10kb比较好，图片体积越大转成base64编码后，体积反而会大很多)
+                        //优点：减少请求数量     缺点：体积会更大
+                        maxSize: 20 * 1024 // 20kb
+                    }
+                }
             }
         ],
     },
