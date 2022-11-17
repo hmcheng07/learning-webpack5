@@ -9,7 +9,7 @@ module.exports = {
         //__dirname nodejs的变量，代表当前文件的文件夹目录
         path: path.resolve(__dirname, "dist"),  //绝对路径
         //文件名
-        filename: "main.js"
+        filename: "static/js/main.js"
     },
     //加载器
     module: {
@@ -56,6 +56,11 @@ module.exports = {
                         //优点：减少请求数量     缺点：体积会更大
                         maxSize: 20 * 1024 // 20kb
                     }
+                },
+                generator: {
+                    //输出图片名称
+                    //[hash]图片名哈希值 [ext]图片的扩展名 [query]访问路径的查询参数
+                    filename: "static/images/[hash:10][ext][query]"
                 }
             }
         ],
