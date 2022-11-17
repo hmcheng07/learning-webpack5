@@ -74,6 +74,15 @@ module.exports = {
                 generator: {
                     filename: "static/media/[hash:10][ext][query]"
                 }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/, //排除不需要处理的项
+                loader: 'babel-loader',
+                //以下内容可以写到babel.config.js配置文件中
+                // options: {
+                //     presets: ['@babel/preset-env']
+                // }
             }
         ],
     },
