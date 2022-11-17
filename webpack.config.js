@@ -1,6 +1,8 @@
 const path = require("path");//nodejs核心模块，专门用来处理路径问题
 //引入eslint插件
 const ESLintPlugin = require('eslint-webpack-plugin');
+//引入htmlwebpack插件
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     //入口
@@ -92,6 +94,11 @@ module.exports = {
         new ESLintPlugin({
             //检测哪些文件
             context: path.resolve(__dirname, "src"),
+        }),
+        new HtmlWebpackPlugin({
+            //配置html模板文件，以public/index.html文件创建新的html文件
+            //新的html文件特点: 1.结构和原来一致 2.自动引入打包输出的资源
+            template: path.resolve(__dirname, "public/index.html"),
         })
     ],
     //模式 development production
