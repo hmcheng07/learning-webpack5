@@ -64,6 +64,14 @@ module.exports = {
                     //[hash]图片名哈希值 [ext]图片的扩展名 [query]访问路径的查询参数
                     filename: "static/images/[hash:10][ext][query]"
                 }
+            },
+            {
+                //字体图标资源处理
+                test: /\.(ttf|woff2?)$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: "static/media/[hash:10][ext][query]"
+                }
             }
         ],
     },
