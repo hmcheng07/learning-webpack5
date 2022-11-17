@@ -67,7 +67,7 @@ module.exports = {
             },
             {
                 //字体图标资源处理
-                test: /\.(ttf|woff2?)$/,
+                test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
                 type: 'asset/resource',
                 generator: {
                     filename: "static/media/[hash:10][ext][query]"
