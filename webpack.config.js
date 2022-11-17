@@ -9,7 +9,9 @@ module.exports = {
         //__dirname nodejs的变量，代表当前文件的文件夹目录
         path: path.resolve(__dirname, "dist"),  //绝对路径
         //文件名
-        filename: "static/js/main.js"
+        filename: "static/js/main.js",
+        //自动清空上次打包的内容(把dist目录先删除，再进行打包)
+        clean: true
     },
     //加载器
     module: {
