@@ -15,7 +15,7 @@ module.exports = {
         //文件名
         filename: "static/js/main.js",
         //自动清空上次打包的内容(把dist目录先删除，再进行打包)
-        clean: true
+        //clean: true   //开启devServer不会产生编译打包的文件，此配置不再需要
     },
     //加载器
     module: {
@@ -101,6 +101,12 @@ module.exports = {
             template: path.resolve(__dirname, "public/index.html"),
         })
     ],
+    //开发服务器 npx webpack serve
+    devServer: {
+        host: "localhost",  //启动服务器域名
+        port: "3000",   //启动服务器端口号
+        open: true  //是否自动打开浏览器
+    },
     //模式 development production
     mode: 'development'
 }
