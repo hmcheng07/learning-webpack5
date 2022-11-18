@@ -11,11 +11,11 @@ module.exports = {
     output: {
         //文件的输出路径
         //__dirname nodejs的变量，代表当前文件的文件夹目录
-        path: path.resolve(__dirname, "dist"),  //绝对路径
+        path: path.resolve(__dirname, "../dist"),  //绝对路径
         //文件名
         filename: "static/js/main.js",
         //自动清空上次打包的内容(把dist目录先删除，再进行打包)
-        //clean: true   //开启devServer不会产生编译打包的文件，此配置不再需要
+        clean: true
     },
     //加载器
     module: {
@@ -93,20 +93,15 @@ module.exports = {
         //plugin的配置
         new ESLintPlugin({
             //检测哪些文件
-            context: path.resolve(__dirname, "src"),
+            context: path.resolve(__dirname, "../src"),
         }),
         new HtmlWebpackPlugin({
             //配置html模板文件，以public/index.html文件创建新的html文件
             //新的html文件特点: 1.结构和原来一致 2.自动引入打包输出的资源
-            template: path.resolve(__dirname, "public/index.html"),
+            template: path.resolve(__dirname, "../public/index.html"),
         })
     ],
-    //开发服务器 npx webpack serve
-    devServer: {
-        host: "localhost",  //启动服务器域名
-        port: "3000",   //启动服务器端口号
-        open: true  //是否自动打开浏览器
-    },
     //模式 development production
-    mode: 'development'
+    mode: 'production'
 }
+//执行命令 npx webpack --config ./config/webpack.prod.js
