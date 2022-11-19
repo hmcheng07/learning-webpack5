@@ -1,10 +1,15 @@
 const path = require("path");//nodejs核心模块，专门用来处理路径问题
+const os = require("os");
+
 //引入eslint插件
 const ESLintPlugin = require('eslint-webpack-plugin');
 //引入html-webpack插件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserWebpackPlugin = require("terser-webpack-plugin");
+
+const threads = os.cpus().length;   //获取cpu核心数
 
 //获取处理样式的loader
 function getStyleLoader(loaderType){
@@ -90,13 +95,23 @@ module.exports = {
                         //include和exclude，二选一即可
                         // exclude: /node_modules/, //排除不需要处理的项
                         include: path.resolve(__dirname, "../src"), //只处理src下的文件，其他文件不处理
-                        loader: 'babel-loader',
-                        //以下内容可以写到babel.config.js配置文件中
-                        options: {
-                            // presets: ['@babel/preset-env']
-                            cacheDirectory: true,    //开启babel缓存
-                            cacheCompression: false //关闭缓存文件压缩
-                        }
+                        use: [
+                            {
+                                loader: "thread-loader",    //开启多进程
+                                options: {
+                                    works: threads, //进程数量
+                                }
+                            },
+                            {
+                                loader: 'babel-loader',
+                                //以下内容可以写到babel.config.js配置文件中
+                                options: {
+                                    // presets: ['@babel/preset-env']
+                                    cacheDirectory: true,    //开启babel缓存
+                                    cacheCompression: false //关闭缓存文件压缩
+                                }
+                            }
+                        ]
                     }
                 ]
             }
@@ -110,7 +125,8 @@ module.exports = {
             context: path.resolve(__dirname, "../src"),
             exclude: "node_modules", //默认值
             cache: true, //开启缓存
-            cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintCache")
+            cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintCache"),   //缓存文件的路径
+            threads,    //开启多进程和设置进程数量
         }),
         new HtmlWebpackPlugin({
             //配置html模板文件，以public/index.html文件创建新的html文件
@@ -120,8 +136,23 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "static/css/main.css"
         }),
-        new CssMinimizerPlugin()
+        //这两个插件可以放置到optimization中，效果一样
+        // new CssMinimizerPlugin(),
+        // new TerserWebpackPlugin({
+        //     parallel: threads,  //开启多进程和设置进程数量
+        // })
     ],
+    optimization: {
+        //压缩的操作（webpack5推荐放在这里）
+        minimizer: [
+            //压缩css
+            new CssMinimizerPlugin(),
+            //压缩js
+            new TerserWebpackPlugin({
+                parallel: threads,  //开启多进程和设置进程数量
+            })
+        ]
+    },
     //模式 development production
     mode: 'production',
     devtool: "source-map"   //包含行与列的映射信息
