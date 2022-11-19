@@ -41,9 +41,9 @@ module.exports = {
         //__dirname nodejs的变量，代表当前文件的文件夹目录
         path: path.resolve(__dirname, "../dist"),  //绝对路径
         //文件名
-        filename: "static/js/[name].js",
+        filename: "static/js/[name].[contenthash:8].js",
         //给打包输出的其他文件命名 (例如：使用main.js中 /* webpackChunkName: "math" */ 中定义的名称)
-        chunkFilename: "static/js/[name].chunk.js",
+        chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
         //图片、字体等通过type:asset处理资源命名方式
         assetModuleFilename: "static/media/[hash:10][ext][query]",
         //自动清空上次打包的内容(把dist目录先删除，再进行打包)
@@ -141,9 +141,9 @@ module.exports = {
             template: path.resolve(__dirname, "../public/index.html"),
         }),
         new MiniCssExtractPlugin({
-            filename: "static/css/[name].css",
+            filename: "static/css/[name].[contenthash:8].css",
             //动态引入js中包含css时，css分割文件命名
-            chunkFilename: "static/css/[name].chunk.css"
+            chunkFilename: "static/css/[name].[contenthash:8].chunk.css"
         }),
         //这两个插件可以放置到optimization中，效果一样
         // new CssMinimizerPlugin(),
@@ -198,7 +198,11 @@ module.exports = {
         splitChunks: {
             chunks: "all",
             //其他都用默认值
-        }
+        },
+        // 提取runtime文件
+        runtimeChunk: {
+            name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+        },
     },
     //模式 development production
     mode: 'production',
