@@ -82,7 +82,9 @@ module.exports = {
                     },
                     {
                         test: /\.js$/,
-                        exclude: /node_modules/, //排除不需要处理的项
+                        //include和exclude，二选一即可
+                        // exclude: /node_modules/, //排除不需要处理的项
+                        include: path.resolve(__dirname, "../src"), //只处理src下的文件，其他文件不处理
                         loader: 'babel-loader',
                         //以下内容可以写到babel.config.js配置文件中
                         // options: {
@@ -99,6 +101,7 @@ module.exports = {
         new ESLintPlugin({
             //检测哪些文件
             context: path.resolve(__dirname, "../src"),
+            exclude: "node_modules" //默认值
         }),
         new HtmlWebpackPlugin({
             //配置html模板文件，以public/index.html文件创建新的html文件
