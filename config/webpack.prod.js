@@ -9,6 +9,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
 
 const threads = os.cpus().length;   //获取cpu核心数
 
@@ -149,6 +150,11 @@ module.exports = {
         // new TerserWebpackPlugin({
         //     parallel: threads,  //开启多进程和设置进程数量
         // }),
+        new PreloadWebpackPlugin({
+            rel: "preload", // preload兼容性更好
+            as: "script",
+            // rel: 'prefetch' // prefetch兼容性更差
+        }),
     ],
     optimization: {
         //压缩的操作（webpack5推荐放在这里）
