@@ -41,6 +41,8 @@ module.exports = {
         path: path.resolve(__dirname, "../dist"),  //绝对路径
         //文件名
         filename: "static/js/main.js",
+        //给打包输出的其他文件命名 (例如：使用main.js中 /* webpackChunkName: "math" */ 中定义的名称)
+        chunkFilename: "static/js/[name].js",
         //自动清空上次打包的内容(把dist目录先删除，再进行打包)
         clean: true
     },

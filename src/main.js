@@ -14,7 +14,8 @@ console.log(sum(1, 2, 3, 4));
 
 document.getElementById('btn').onclick = function () {
     //eslint不能识别动态导入语法，需要额外追加配置（.eslintrc.js）
-    import("./js/math").then(({mul}) => {
+    // /* webpackChunkName: "math" */ webpack魔法命名
+    import(/* webpackChunkName: "math" */ "./js/math").then(({mul}) => {
         console.log(mul(3,3));
     });
 }
