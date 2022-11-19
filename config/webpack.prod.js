@@ -1,9 +1,10 @@
 const path = require("path");//nodejs核心模块，专门用来处理路径问题
 //引入eslint插件
 const ESLintPlugin = require('eslint-webpack-plugin');
-//引入htmlwebpack插件
+//引入html-webpack插件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 //获取处理样式的loader
 function getStyleLoader(loaderType){
@@ -107,7 +108,8 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: "static/css/main.css"
-        })
+        }),
+        new CssMinimizerPlugin()
     ],
     //模式 development production
     mode: 'production'
