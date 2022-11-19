@@ -112,6 +112,7 @@ module.exports = {
         new CssMinimizerPlugin()
     ],
     //模式 development production
-    mode: 'production'
+    mode: 'production',
+    devtool: "source-map"   //包含行与列的映射信息
 }
 //执行命令 npx webpack --config ./config/webpack.prod.js

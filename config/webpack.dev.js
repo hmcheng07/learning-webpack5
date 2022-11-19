@@ -108,5 +108,6 @@ module.exports = {
         open: true  //是否自动打开浏览器
     },
     //模式 development production
-    mode: 'development'
+    mode: 'development',
+    devtool: "cheap-module-source-map"  //只有行的映射信息
 }
