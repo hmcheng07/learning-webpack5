@@ -181,7 +181,12 @@ module.exports = {
                     },
                 },
             }),
-        ]
+        ],
+        //代码分割配置
+        splitChunks: {
+            chunks: "all",
+            //其他都用默认值
+        }
     },
     //模式 development production
     mode: 'production',
