@@ -40,9 +40,11 @@ module.exports = {
         //__dirname nodejs的变量，代表当前文件的文件夹目录
         path: path.resolve(__dirname, "../dist"),  //绝对路径
         //文件名
-        filename: "static/js/main.js",
+        filename: "static/js/[name].js",
         //给打包输出的其他文件命名 (例如：使用main.js中 /* webpackChunkName: "math" */ 中定义的名称)
-        chunkFilename: "static/js/[name].js",
+        chunkFilename: "static/js/[name].chunk.js",
+        //图片、字体等通过type:asset处理资源命名方式
+        assetModuleFilename: "static/media/[hash:10][ext][query]",
         //自动清空上次打包的内容(把dist目录先删除，再进行打包)
         clean: true
     },
@@ -79,19 +81,19 @@ module.exports = {
                                 maxSize: 20 * 1024 // 20kb
                             }
                         },
-                        generator: {
-                            //输出图片名称
-                            //[hash]图片名哈希值 [ext]图片的扩展名 [query]访问路径的查询参数
-                            filename: "static/images/[hash:10][ext][query]"
-                        }
+                        // generator: {
+                        //     //输出图片名称
+                        //     //[hash]图片名哈希值 [ext]图片的扩展名 [query]访问路径的查询参数
+                        //     filename: "static/images/[hash:10][ext][query]"
+                        // }
                     },
                     {
                         //字体图标资源处理
                         test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
                         type: 'asset/resource',
-                        generator: {
-                            filename: "static/media/[hash:10][ext][query]"
-                        }
+                        // generator: {
+                        //     filename: "static/media/[hash:10][ext][query]"
+                        // }
                     },
                     {
                         test: /\.js$/,
@@ -138,7 +140,9 @@ module.exports = {
             template: path.resolve(__dirname, "../public/index.html"),
         }),
         new MiniCssExtractPlugin({
-            filename: "static/css/main.css"
+            filename: "static/css/[name].css",
+            //动态引入js中包含css时，css分割文件命名
+            chunkFilename: "static/css/[name].chunk.css"
         }),
         //这两个插件可以放置到optimization中，效果一样
         // new CssMinimizerPlugin(),

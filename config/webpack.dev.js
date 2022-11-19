@@ -16,7 +16,11 @@ module.exports = {
         //开发模式没有输出
         path: undefined,  //绝对路径
         //文件名
-        filename: "static/js/main.js",
+        filename: "static/js/[name].js",
+        //给打包输出的其他文件命名 (例如：使用main.js中 /* webpackChunkName: "math" */ 中定义的名称)
+        chunkFilename: "static/js/[name].chunk.js",
+        //图片、字体等通过type:asset处理资源命名方式
+        assetModuleFilename: "static/media/[hash:10][ext][query]",
         //自动清空上次打包的内容(把dist目录先删除，再进行打包)
         //clean: true   //开启devServer不会产生编译打包的文件，此配置不再需要
     },
@@ -69,19 +73,19 @@ module.exports = {
                                 maxSize: 20 * 1024 // 20kb
                             }
                         },
-                        generator: {
-                            //输出图片名称
-                            //[hash]图片名哈希值 [ext]图片的扩展名 [query]访问路径的查询参数
-                            filename: "static/images/[hash:10][ext][query]"
-                        }
+                        // generator: {
+                        //     //输出图片名称
+                        //     //[hash]图片名哈希值 [ext]图片的扩展名 [query]访问路径的查询参数
+                        //     filename: "static/images/[hash:10][ext][query]"
+                        // }
                     },
                     {
                         //字体图标资源处理
                         test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
                         type: 'asset/resource',
-                        generator: {
-                            filename: "static/media/[hash:10][ext][query]"
-                        }
+                        // generator: {
+                        //     filename: "static/media/[hash:10][ext][query]"
+                        // }
                     },
                     {
                         test: /\.js$/,
