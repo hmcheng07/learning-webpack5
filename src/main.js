@@ -26,3 +26,9 @@ if (module.hot) {
     module.hot.accept("./js/count");
     module.hot.accept("./js/sum");
 }
+
+// 添加promise代码
+const promise = Promise.resolve();
+promise.then(() => {
+    console.log("hello promise");
+});
