@@ -8,6 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 const threads = os.cpus().length;   //获取cpu核心数
 
@@ -141,7 +142,7 @@ module.exports = {
         // new CssMinimizerPlugin(),
         // new TerserWebpackPlugin({
         //     parallel: threads,  //开启多进程和设置进程数量
-        // })
+        // }),
     ],
     optimization: {
         //压缩的操作（webpack5推荐放在这里）
@@ -151,7 +152,35 @@ module.exports = {
             //压缩js
             new TerserWebpackPlugin({
                 parallel: threads,  //开启多进程和设置进程数量
-            })
+            }),
+            // 压缩图片
+            new ImageMinimizerPlugin({
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.imageminGenerate,
+                    options: {
+                        plugins: [
+                            ["gifsicle", { interlaced: true }],
+                            ["jpegtran", { progressive: true }],
+                            ["optipng", { optimizationLevel: 5 }],
+                            [
+                                "svgo",
+                                {
+                                    plugins: [
+                                        "preset-default",
+                                        "prefixIds",
+                                        {
+                                            name: "sortAttrs",
+                                            params: {
+                                                xmlnsOrder: "alphabetical",
+                                            },
+                                        },
+                                    ],
+                                },
+                            ],
+                        ],
+                    },
+                },
+            }),
         ]
     },
     //模式 development production
