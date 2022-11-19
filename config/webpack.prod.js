@@ -5,6 +5,25 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+//获取处理样式的loader
+function getStyleLoader(loaderType){
+    return [  //执行顺序，从右到左(从下到上)
+        MiniCssExtractPlugin.loader, //将style-loader调整为MiniCssExtractPlugin.loader，生成单独的css样式文件
+        "css-loader",   //将css资源编译成commonjs的模块到js中
+        {
+            loader: "postcss-loader",
+            options: {
+                postcssOptions: {
+                    plugins: [
+                        "postcss-preset-env",   //能解决大多数样式兼容性问题
+                    ]
+                }
+            }
+        },
+        loaderType
+    ].filter(Boolean); //.filter(Boolean)会把传入的undefine的值过滤掉
+}
+
 module.exports = {
     //入口
     entry: "./src/main.js", //相对路径
@@ -24,74 +43,19 @@ module.exports = {
             //loader的配置
             {
                 test: /\.css$/, //只检测.css文件 $符号表示以什么什么结尾
-                use: [  //执行顺序，从右到左(从下到上)
-                    MiniCssExtractPlugin.loader, //将style-loader调整为MiniCssExtractPlugin.loader，生成单独的css样式文件
-                    "css-loader",   //将css资源编译成commonjs的模块到js中
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env",   //能解决大多数样式兼容性问题
-                                ]
-                            }
-                        }
-                    }
-                ],
+                use: getStyleLoader(),
             },
             {
                 test: /\.less$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env",   //能解决大多数样式兼容性问题
-                                ]
-                            }
-                        }
-                    },
-                    'less-loader',  //将less编译成css文件
-                ],
+                use: getStyleLoader("less-loader"),
             },
             {
                 test: /\.s[ac]ss$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env",   //能解决大多数样式兼容性问题
-                                ]
-                            }
-                        }
-                    },
-                    'sass-loader',  //将sass编译成css文件
-                ],
+                use: getStyleLoader("sass-loader"),
             },
             {
                 test: /\.styl$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env",   //能解决大多数样式兼容性问题
-                                ]
-                            }
-                        }
-                    },
-                    'stylus-loader',  //将stylus编译成css文件
-                ],
+                use: getStyleLoader("stylus-loader"),
             },
             {
                 //图片资源处理，webpack5之后支持自动对图片进行处理，以下配置是为了优化图片处理而配置的
