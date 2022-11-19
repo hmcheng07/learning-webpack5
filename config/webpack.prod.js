@@ -92,9 +92,11 @@ module.exports = {
                         include: path.resolve(__dirname, "../src"), //只处理src下的文件，其他文件不处理
                         loader: 'babel-loader',
                         //以下内容可以写到babel.config.js配置文件中
-                        // options: {
-                        //     presets: ['@babel/preset-env']
-                        // }
+                        options: {
+                            // presets: ['@babel/preset-env']
+                            cacheDirectory: true,    //开启babel缓存
+                            cacheCompression: false //关闭缓存文件压缩
+                        }
                     }
                 ]
             }
@@ -106,7 +108,9 @@ module.exports = {
         new ESLintPlugin({
             //检测哪些文件
             context: path.resolve(__dirname, "../src"),
-            exclude: "node_modules" //默认值
+            exclude: "node_modules", //默认值
+            cache: true, //开启缓存
+            cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintCache")
         }),
         new HtmlWebpackPlugin({
             //配置html模板文件，以public/index.html文件创建新的html文件
